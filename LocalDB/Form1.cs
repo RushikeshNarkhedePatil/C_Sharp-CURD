@@ -15,6 +15,8 @@ namespace LocalDB
     {
         string conectionString = @"SERVER=127.0.0.1;Database=bookdb;Uid=root;Pwd=toor;";
         int bookID=0;
+        private IButtonControl myCancelBtn;
+
         public Form1()
         {
             InitializeComponent();
@@ -59,7 +61,6 @@ namespace LocalDB
         void Clear()
         {
             txtName.Text = txtAuthor.Text = txtDescription.Text = txtSearch.Text = "";
-            //txtName.Clear();
             bookID = 0;
             btnSave.Text = "Save";
             btnDelete.Enabled = false;
@@ -106,6 +107,11 @@ namespace LocalDB
                 Clear();
                 GridFill();
             }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.CancelButton = myCancelBtn;
         }
     }
 }
