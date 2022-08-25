@@ -27,16 +27,25 @@ namespace LocalDB
             using (MySqlConnection mysqlCon=new MySqlConnection(conectionString))
             {
                 mysqlCon.Open();
+              
                 MySqlCommand mysqlCmd = new MySqlCommand("BookAddOrEdit", mysqlCon);
                 mysqlCmd.CommandType = CommandType.StoredProcedure;
                 mysqlCmd.Parameters.AddWithValue("_BookID", bookID);
                 mysqlCmd.Parameters.AddWithValue("_BookName", txtName.Text.Trim());
                 mysqlCmd.Parameters.AddWithValue("_Author", txtAuthor.Text.Trim());
                 mysqlCmd.Parameters.AddWithValue("_Description", txtDescription.Text.Trim());
-                mysqlCmd.ExecuteNonQuery();
-                MessageBox.Show("Submited sucessfully");
-                Clear();
-                GridFill();
+                if(txtName.Text==""||txtAuthor.Text==""||txtDescription.Text=="")
+                {
+                    MessageBox.Show("please enter valid data");
+                }
+                else
+                {
+                    mysqlCmd.ExecuteNonQuery();
+                    MessageBox.Show("Submited sucessfully");
+                    Clear();
+                    GridFill();
+                }
+               
             }
         }
         void GridFill()
