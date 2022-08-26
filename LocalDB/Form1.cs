@@ -8,15 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 namespace LocalDB
 {
     public partial class Form1 : Form
     {
         string conectionString = @"SERVER=127.0.0.1;Database=bookdb;Uid=root;Pwd=toor;";
         int bookID=0;
-        private IButtonControl myCancelBtn;
-
+        bool name = true;
+        bool Author = true;
+        bool Desc = true;
         public Form1()
         {
             InitializeComponent();
@@ -36,12 +38,29 @@ namespace LocalDB
                 mysqlCmd.Parameters.AddWithValue("_Description", txtDescription.Text.Trim());
                 if(txtName.Text==""||txtAuthor.Text==""||txtDescription.Text=="")
                 {
-                    MessageBox.Show("please enter valid data");
+                    MessageBox.Show("Please fill in all fields", "Error");
+                    txtName.Focus(); // set focus to lastNameTextBox
                 }
-                else
+                if (!Regex.Match(txtName.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
+                {
+                    MessageBox.Show("Invalid Book Name", "Book Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtName.Focus();
+                }
+               else if (!Regex.Match(txtAuthor.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
+                {
+                    MessageBox.Show("Invalid Author Name", "Author Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtAuthor.Focus();
+                }
+                else if (!Regex.Match(txtDescription.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
+                {
+                    MessageBox.Show("Invalid Description", "Description", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtDescription.Focus();
+                }
+               // if(name==true&&Author==true&&Desc==true)
+               else
                 {
                     mysqlCmd.ExecuteNonQuery();
-                    MessageBox.Show("Submited sucessfully");
+                    MessageBox.Show("Submited sucessfully","Sucess");
                     Clear();
                     GridFill();
                 }
@@ -120,7 +139,58 @@ namespace LocalDB
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.CancelButton = myCancelBtn;
+           // this.CancelButton = myCancelBtn;
+           System.Windows.Forms.Application.Exit();
+        }
+
+        private void hedding_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtName_Validating(object sender, CancelEventArgs e)
+        {
+            if(string.IsNullOrEmpty(txtName.Text))
+            {
+                e.Cancel = true;
+                txtName.Focus();
+                errorProvider1.SetError(txtName, "please enter book name !");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(txtName, null);
+            }
+        }
+
+        private void txtAuthor_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtAuthor.Text))
+            {
+                e.Cancel = true;
+                txtAuthor.Focus();
+                errorProvider2.SetError(txtAuthor, "please enter book name !");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider2.SetError(txtAuthor, null);
+            }
+        }
+
+        private void txtDescription_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtDescription.Text))
+            {
+                e.Cancel = true;
+                txtDescription.Focus();
+                errorProvider2.SetError(txtDescription, "please enter book name !");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider3.SetError(txtDescription, null);
+            }
         }
     }
 }
