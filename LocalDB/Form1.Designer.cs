@@ -46,6 +46,7 @@ namespace LocalDB
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBook)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -93,7 +94,7 @@ namespace LocalDB
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btnSave.Location = new System.Drawing.Point(117, 294);
+            this.btnSave.Location = new System.Drawing.Point(198, 295);
             this.btnSave.Margin = new System.Windows.Forms.Padding(5);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(121, 48);
@@ -125,7 +126,7 @@ namespace LocalDB
             // btnCancel
             // 
             this.btnCancel.BackColor = System.Drawing.Color.Silver;
-            this.btnCancel.Location = new System.Drawing.Point(389, 294);
+            this.btnCancel.Location = new System.Drawing.Point(463, 294);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(5);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(112, 48);
@@ -137,7 +138,7 @@ namespace LocalDB
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnDelete.Location = new System.Drawing.Point(248, 294);
+            this.btnDelete.Location = new System.Drawing.Point(329, 295);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(5);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(124, 47);
@@ -148,7 +149,7 @@ namespace LocalDB
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(520, 294);
+            this.txtSearch.Location = new System.Drawing.Point(596, 299);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(5);
             this.txtSearch.Multiline = true;
             this.txtSearch.Name = "txtSearch";
@@ -158,7 +159,7 @@ namespace LocalDB
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnSearch.Location = new System.Drawing.Point(849, 296);
+            this.btnSearch.Location = new System.Drawing.Point(907, 294);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(5);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(116, 43);
@@ -205,12 +206,24 @@ namespace LocalDB
             // 
             this.errorProvider3.ContainerControl = this;
             // 
+            // btnExport
+            // 
+            this.btnExport.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnExport.Location = new System.Drawing.Point(83, 298);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(103, 45);
+            this.btnExport.TabIndex = 13;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = false;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Wheat;
             this.ClientSize = new System.Drawing.Size(1037, 611);
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.hedding);
             this.Controls.Add(this.dgvBook);
             this.Controls.Add(this.btnSearch);
@@ -258,6 +271,7 @@ namespace LocalDB
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.ErrorProvider errorProvider3;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 

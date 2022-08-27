@@ -90,7 +90,7 @@ namespace LocalDB
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Not connect to database","message");
+                MessageBox.Show(ex.Message,"message");
             }
             
         }
@@ -204,6 +204,30 @@ namespace LocalDB
             {
                 e.Cancel = false;
                 errorProvider3.SetError(txtDescription, null);
+            }
+        }
+
+        //export report 
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvBook.Rows.Count > 0)
+            {
+                Microsoft.Office.Interop.Excel.Application xcelApp = new Microsoft.Office.Interop.Excel.Application();
+                xcelApp.Application.Workbooks.Add(Type.Missing);
+
+                for (int i = 1; i < dgvBook.Columns.Count + 1; i++)
+                {
+                    xcelApp.Cells[1, i] = dgvBook.Columns[i - 1].HeaderText;
+                }
+                for (int i = 0; i < dgvBook.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dgvBook.Columns.Count; j++)
+                    {
+                        xcelApp.Cells[i + 2, j + 1] = dgvBook.Rows[i].Cells[j].Value.ToString();
+                    }
+                }
+                xcelApp.Columns.AutoFit();
+                xcelApp.Visible = true;
             }
         }
     }
