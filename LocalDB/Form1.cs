@@ -24,6 +24,7 @@ namespace LocalDB
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            var logger = NLog.LogManager.GetCurrentClassLogger();
             try
             {
                 using (MySqlConnection mysqlCon = new MySqlConnection(conectionString))
@@ -61,6 +62,7 @@ namespace LocalDB
                     {
                         mysqlCmd.ExecuteNonQuery();
                         MessageBox.Show("Submited sucessfully", "Sucess");
+                        logger.Info("Data store in database sucessfully");
                         Clear();
                         GridFill();
                     }
@@ -70,6 +72,7 @@ namespace LocalDB
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message,"Error");
+                logger.Error(ex.Message);
             }
             
         }

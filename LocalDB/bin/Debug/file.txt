@@ -1,0 +1,5 @@
+2022-08-27 17:03:50.6707|INFO|LocalDB.Program|Hello world
+2022-08-27 17:03:50.7185|ERROR|LocalDB.Program|Goodbye cruel world|System.InvalidOperationException: Cannot read keys when either application does not have a console or when console input has been redirected from a file. Try Console.Read.
+   at System.Console.ReadKey(Boolean intercept)
+   at System.Console.ReadKey()
+   at LocalDB.Program.Main() in C:\Users\varad\source\repos\LocalDB\LocalDB\Program.cs:line 25
