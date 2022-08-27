@@ -16,9 +16,7 @@ namespace LocalDB
     {
         string conectionString = @"SERVER=127.0.0.1;Database=bookdb;Uid=root;Pwd=toor;";
         int bookID=0;
-        bool name = true;
-        bool Author = true;
-        bool Desc = true;
+       
         public Form1()
         {
             InitializeComponent();
@@ -26,59 +24,75 @@ namespace LocalDB
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            using (MySqlConnection mysqlCon=new MySqlConnection(conectionString))
+            try
             {
-                mysqlCon.Open();
-              
-                MySqlCommand mysqlCmd = new MySqlCommand("BookAddOrEdit", mysqlCon);
-                mysqlCmd.CommandType = CommandType.StoredProcedure;
-                mysqlCmd.Parameters.AddWithValue("_BookID", bookID);
-                mysqlCmd.Parameters.AddWithValue("_BookName", txtName.Text.Trim());
-                mysqlCmd.Parameters.AddWithValue("_Author", txtAuthor.Text.Trim());
-                mysqlCmd.Parameters.AddWithValue("_Description", txtDescription.Text.Trim());
-                if(txtName.Text==""||txtAuthor.Text==""||txtDescription.Text=="")
+                using (MySqlConnection mysqlCon = new MySqlConnection(conectionString))
                 {
-                    MessageBox.Show("Please fill in all fields", "Error");
-                    txtName.Focus(); // set focus to lastNameTextBox
+                    mysqlCon.Open();
+
+                    MySqlCommand mysqlCmd = new MySqlCommand("BookAddOrEdit", mysqlCon);
+                    mysqlCmd.CommandType = CommandType.StoredProcedure;
+                    mysqlCmd.Parameters.AddWithValue("_BookID", bookID);
+                    mysqlCmd.Parameters.AddWithValue("_BookName", txtName.Text.Trim());
+                    mysqlCmd.Parameters.AddWithValue("_Author", txtAuthor.Text.Trim());
+                    mysqlCmd.Parameters.AddWithValue("_Description", txtDescription.Text.Trim());
+                    if (txtName.Text == "" || txtAuthor.Text == "" || txtDescription.Text == "")
+                    {
+                        MessageBox.Show("Please fill in all fields", "Error");
+                        txtName.Focus(); // set focus to lastNameTextBox
+                    }
+                    else if (!Regex.Match(txtName.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
+                    {
+                        MessageBox.Show("Invalid Book Name", "Book Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtName.Focus();
+                    }
+                    else if (!Regex.Match(txtAuthor.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
+                    {
+                        MessageBox.Show("Invalid Author Name", "Author Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtAuthor.Focus();
+                    }
+                    else if (!Regex.Match(txtDescription.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
+                    {
+                        MessageBox.Show("Invalid Description", "Description", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtDescription.Focus();
+                    }
+                    // if(name==true&&Author==true&&Desc==true)
+                    else
+                    {
+                        mysqlCmd.ExecuteNonQuery();
+                        MessageBox.Show("Submited sucessfully", "Sucess");
+                        Clear();
+                        GridFill();
+                    }
+
                 }
-                if (!Regex.Match(txtName.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
-                {
-                    MessageBox.Show("Invalid Book Name", "Book Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtName.Focus();
-                }
-               else if (!Regex.Match(txtAuthor.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
-                {
-                    MessageBox.Show("Invalid Author Name", "Author Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtAuthor.Focus();
-                }
-                else if (!Regex.Match(txtDescription.Text, @"^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$").Success)
-                {
-                    MessageBox.Show("Invalid Description", "Description", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtDescription.Focus();
-                }
-               // if(name==true&&Author==true&&Desc==true)
-               else
-                {
-                    mysqlCmd.ExecuteNonQuery();
-                    MessageBox.Show("Submited sucessfully","Sucess");
-                    Clear();
-                    GridFill();
-                }
-               
             }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message,"Error");
+            }
+            
         }
         void GridFill()
         {
-            using (MySqlConnection mysqlCon = new MySqlConnection(conectionString))
+            try
             {
-                mysqlCon.Open();
-                MySqlDataAdapter sqlDa = new MySqlDataAdapter("BookViewAll", mysqlCon);
-                sqlDa.SelectCommand.CommandType = CommandType.StoredProcedure;
-                DataTable dtblBook = new DataTable();
-                sqlDa.Fill(dtblBook);
-                dgvBook.DataSource = dtblBook;
-                dgvBook.Columns[0].Visible = false;
+                using (MySqlConnection mysqlCon = new MySqlConnection(conectionString))
+                {
+                    mysqlCon.Open();
+                    MySqlDataAdapter sqlDa = new MySqlDataAdapter("BookViewAll", mysqlCon);
+                    sqlDa.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    DataTable dtblBook = new DataTable();
+                    sqlDa.Fill(dtblBook);
+                    dgvBook.DataSource = dtblBook;
+                    dgvBook.Columns[0].Visible = false;
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Not connect to database","message");
+            }
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
