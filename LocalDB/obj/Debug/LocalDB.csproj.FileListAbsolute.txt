@@ -55,3 +55,7 @@ C:\Users\varad\source\repos\LocalDB\LocalDB\bin\Debug\Microsoft.Extensions.Primi
 C:\Users\varad\source\repos\LocalDB\LocalDB\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 C:\Users\varad\source\repos\LocalDB\LocalDB\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\varad\source\repos\LocalDB\LocalDB\bin\Debug\System.ValueTuple.xml
+C:\Users\varad\source\repos\LocalDB\LocalDB\bin\Debug\LocalDB.exe.manifest
+C:\Users\varad\source\repos\LocalDB\LocalDB\bin\Debug\LocalDB.application
+C:\Users\varad\source\repos\LocalDB\LocalDB\obj\Debug\LocalDB.exe.manifest
+C:\Users\varad\source\repos\LocalDB\LocalDB\obj\Debug\LocalDB.application

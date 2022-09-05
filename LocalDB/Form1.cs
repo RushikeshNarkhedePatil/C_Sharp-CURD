@@ -101,8 +101,20 @@ namespace LocalDB
         private void Form1_Load(object sender, EventArgs e)
         {
            // this.WindowState = FormWindowState.Maximized;
-            Clear();
-            GridFill();
+            try
+            {
+                Clear();
+                GridFill();
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("m form loading error" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("m form loading error" + ex.Message);
+            }
+           
         }
         void Clear()
         {
