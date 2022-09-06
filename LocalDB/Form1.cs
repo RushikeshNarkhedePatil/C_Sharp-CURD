@@ -94,6 +94,7 @@ namespace LocalDB
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message,"message");
+             
             }
             
         }
