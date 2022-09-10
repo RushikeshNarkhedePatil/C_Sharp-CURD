@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      autoReload="true"
+      throwExceptions="false">
+
+  <variable name="appName" value="Visimaster" />
+  <targets async="true">
+    <!--<target xsi:type="File"
+			   name="default"
+			   layout="${longdate} - ${level:uppercase=true}: ${message}${onexception:${newline}EXCEPTION\: ${exception:format=ToString}}"
+			   fileName="${specialfolder:ApplicationData}\${appName}\Debug.log"
+			   keepFileOpen="false"
+			   archiveFileName="${specialfolder:ApplicationData}\${appName}\Debug_${shortdate}.{##}.log"
+			   archiveNumbering="Sequence"
+			   archiveEvery="Day"
+			   maxArchiveFiles="30" />-->
+
+    <target
+             name="database" xsi:type="Database"
+            dbProvider="MySql.Data.MySqlClient.MySqlConnection, MySql.Data"
+            connectionString="server=localhost;Database=visimasterNewdb;user id=system1;password=system@1micron">
+
+      <commandText>
+        insert into visimasterNewdb.nlog (
+        MachineName, Logged, Level ,
+        Message, Logger ,Callsite ,Exception
+        ) values (
+        @MachineName, @Logged, @Level ,
+        @Message, @Logger ,@Callsite ,@Exception
+        );
+      </commandText>
+
+      <parameter name="MachineName" layout="Visimaster" />
+      <parameter name="@Logged" layout="${date}" />
+      <parameter name="@Level" layout="${level}" />
+      <parameter name="@Message" layout="${message}" />
+
+      <parameter name="@Logger" layout="${logger}" />
+      <parameter name="@Callsite" layout="${callsite:filename=true}" />
+      <parameter name="@Exception" layout="${exception:tostring}" />
+    </target>
+  </targets>
+  <rules>
+    <logger name="*" minlevel="Debug" appendTo="database" />
+    <!--<logger name="*" writeTo="default" minlevel="Info" />
+
+    <logger name="*" writeTo="eventlog" minlevel="Error" />-->
+  </rules>
+</nlog>
